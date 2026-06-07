@@ -21,4 +21,11 @@ router.put(
   productController.updateProduct
 );
 
+router.delete(
+  "/:id",
+  authMiddleware,
+  roleMiddleware("admin"),
+  productController.deleteProduct
+);
+
 module.exports = router;
