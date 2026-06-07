@@ -5,12 +5,20 @@ const productController = require("../controllers/productController");
 const authMiddleware = require("../middleware/authMiddleware");
 const roleMiddleware = require("../middleware/roleMiddleware");
 
+router.get("/", authMiddleware, productController.getProducts);
 // Admin only
 router.post(
   "/",
   authMiddleware,
   roleMiddleware("admin"),
   productController.createProduct
+);
+
+router.put(
+  "/:id",
+  authMiddleware,
+  roleMiddleware("admin"),
+  productController.updateProduct
 );
 
 module.exports = router;
