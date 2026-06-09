@@ -43,4 +43,11 @@ router.patch(
   productController.reduceStock
 );
 
+router.get(
+  "/low-stock",
+  authMiddleware,
+  roleMiddleware("admin"),
+  productController.getLowStockProducts
+);
+
 module.exports = router;

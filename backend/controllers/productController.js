@@ -280,3 +280,29 @@ exports.reduceStock = (req, res) => {
     }
   );
 };
+
+// Get Low Stock Products
+exports.getLowStockProducts = (req, res) => {
+  db.query(
+    `SELECT
+        id,
+        name,
+        sku,
+        stock,
+        low_stock_limit
+     FROM products
+     WHERE stock <= low_stock_limit`,
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({
+          message: err.message,
+        });
+      }
+
+      res.status(200).json({
+        count: results.length,
+        products: results,
+      });
+    }
+  );
+};
