@@ -53,3 +53,58 @@ exports.getDashboardStats = (req, res) => {
     }
   );
 };
+
+// Recent Orders Report
+exports.getRecentOrders = (req, res) => {
+  db.query(
+    `SELECT
+        id,
+        user_id,
+        total_amount,
+        status,
+        created_at
+     FROM orders
+     ORDER BY created_at DESC
+     LIMIT 5`,
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({
+          message: err.message,
+        });
+      }
+
+      res.status(200).json({
+        count: results.length,
+        orders: results,
+      });
+    }
+  );
+};
+
+// Top Selling Products Report
+exports.getTopSellingProducts = (req, res) => {
+  db.query(
+    `SELECT
+        p.id,
+        p.name,
+        p.sku,
+        SUM(oi.quantity) AS total_sold
+     FROM order_items oi
+     JOIN products p ON oi.product_id = p.id
+     GROUP BY p.id, p.name, p.sku
+     ORDER BY total_sold DESC
+     LIMIT 5`,
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({
+          message: err.message,
+        });
+      }
+
+      res.status(200).json({
+        count: results.length,
+        products: results,
+      });
+    }
+  );
+};

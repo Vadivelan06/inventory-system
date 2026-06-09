@@ -13,4 +13,18 @@ router.get(
   dashboardController.getDashboardStats
 );
 
+router.get(
+  "/recent-orders",
+  authMiddleware,
+  roleMiddleware("admin"),
+  dashboardController.getRecentOrders
+);
+
+router.get(
+  "/top-products",
+  authMiddleware,
+  roleMiddleware("admin"),
+  dashboardController.getTopSellingProducts
+);
+
 module.exports = router;
