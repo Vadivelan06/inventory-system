@@ -191,3 +191,92 @@ exports.deleteProduct = (req, res) => {
     }
   );
 };
+
+// Add Stock
+exports.addStock = (req, res) => {
+  const id = req.params.id;
+  const { quantity } = req.body;
+
+  if (!quantity || quantity <= 0) {
+    return res.status(400).json({
+      message: "Quantity must be greater than 0",
+    });
+  }
+
+  db.query(
+    "UPDATE products SET stock = stock + ? WHERE id = ?",
+    [quantity, id],
+    (err, result) => {
+      if (err) {
+        return res.status(500).json({
+          message: err.message,
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          message: "Product not found",
+        });
+      }
+
+      res.status(200).json({
+        message: "Stock added successfully",
+      });
+    }
+  );
+};
+
+// Reduce Stock
+exports.reduceStock = (req, res) => {
+  const id = req.params.id;
+  const { quantity } = req.body;
+
+  if (!quantity || quantity <= 0) {
+    return res.status(400).json({
+      message: "Quantity must be greater than 0",
+    });
+  }
+
+  // Check current stock
+  db.query(
+    "SELECT stock FROM products WHERE id = ?",
+    [id],
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({
+          message: err.message,
+        });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({
+          message: "Product not found",
+        });
+      }
+
+      const currentStock = results[0].stock;
+
+      if (currentStock < quantity) {
+        return res.status(400).json({
+          message: "Insufficient stock",
+        });
+      }
+
+      db.query(
+        "UPDATE products SET stock = stock - ? WHERE id = ?",
+        [quantity, id],
+        (err) => {
+          if (err) {
+            return res.status(500).json({
+              message: err.message,
+            });
+          }
+
+          res.status(200).json({
+            message: "Stock reduced successfully",
+          });
+        }
+      );
+    }
+  );
+};
