@@ -43,7 +43,23 @@ exports.getDashboardStats = (req, res) => {
                   stats.totalRevenue =
                     revenueResult[0].totalRevenue;
 
-                  res.status(200).json(stats);
+                  db.query(
+                    `SELECT COUNT(*) AS pendingOrders
+                     FROM orders
+                     WHERE status = 'Pending'`,
+                    (err, pendingResult) => {
+                      if (err) {
+                        return res.status(500).json({
+                           message: err.message,
+                        });
+                      }
+
+                      stats.pendingOrders =
+                        pendingResult[0].pendingOrders;
+
+                      res.status(200).json(stats);
+                    }
+                  );
                 }
               );
             }

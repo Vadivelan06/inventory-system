@@ -1,4 +1,5 @@
 const db = require("../db/db");
+const { saveAuditLog } = require("./auditHelper");
 
 // Create Product
 exports.createProduct = (req, res) => {
@@ -52,6 +53,11 @@ exports.createProduct = (req, res) => {
           res.status(201).json({
             message: "Product created successfully",
           });
+
+          saveAuditLog(
+            req.user.id,
+            `Created product: ${name}`
+          );
         }
       );
     }
@@ -158,6 +164,11 @@ exports.updateProduct = (req, res) => {
         });
       }
 
+      saveAuditLog(
+        req.user.id,
+        `Updated product ID: ${id}`
+      );
+
       res.status(200).json({
         message: "Product updated successfully",
       });
@@ -184,6 +195,11 @@ exports.deleteProduct = (req, res) => {
           message: "Product not found",
         });
       }
+
+      saveAuditLog(
+        req.user.id,
+        `Deleted product ID: ${id}`
+      );
 
       res.status(200).json({
         message: "Product deleted successfully",
@@ -218,6 +234,11 @@ exports.addStock = (req, res) => {
           message: "Product not found",
         });
       }
+
+      saveAuditLog(
+        req.user.id,
+        `Added stock to product ID: ${id}`
+      );
 
       res.status(200).json({
         message: "Stock added successfully",
@@ -271,6 +292,11 @@ exports.reduceStock = (req, res) => {
               message: err.message,
             });
           }
+
+          saveAuditLog(
+            req.user.id,
+            `Reduced stock from product ID: ${id}`
+          );
 
           res.status(200).json({
             message: "Stock reduced successfully",

@@ -23,4 +23,16 @@ router.post(
   orderController.placeOrder
 );
 
+router.patch(
+  "/:id/status",
+  authMiddleware,
+  orderController.updateOrderStatus
+);
+
+router.patch(
+  "/:id/cancel",
+  authMiddleware,
+  orderController.cancelOrder
+);
+
 module.exports = router;
