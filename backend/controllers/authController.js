@@ -59,6 +59,7 @@ exports.login = (req, res) => {
       [email],
       async (err, results) => {
         if (err) {
+          console.log("LOGIN DB ERROR:",err);
           return res.status(500).json({
             message: err.message,
           });
@@ -71,6 +72,8 @@ exports.login = (req, res) => {
         }
 
         const user = results[0];
+
+        console.log("User found:", user.email);
 
         const isMatch = await bcrypt.compare(
           password,
