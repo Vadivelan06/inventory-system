@@ -27,7 +27,7 @@ export default function Orders() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/orders",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/orders`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ export default function Orders() {
     const token = localStorage.getItem("token");
 
     const response = await axios.get(
-      "http://localhost:5000/api/products",
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ export default function Orders() {
     const token = localStorage.getItem("token");
 
     await axios.post(
-      "http://localhost:5000/api/orders",
+      `${process.env.NEXT_PUBLIC_API_URL}/api/orders`,
       {
         product_id: Number(productId),
         quantity: Number(quantity),
@@ -100,7 +100,7 @@ const handleCancelOrder = async (orderId: number) => {
     const token = localStorage.getItem("token");
 
     await axios.patch(
-      `http://localhost:5000/api/orders/${orderId}/cancel`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/orders/${orderId}/cancel`,
       {},
       {
         headers: {
@@ -129,7 +129,7 @@ const handleUpdateStatus = async (
     const token = localStorage.getItem("token");
 
     await axios.patch(
-      `http://localhost:5000/api/orders/${orderId}/status`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/orders/${orderId}/status`,
       { status },
       {
         headers: {

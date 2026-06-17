@@ -22,7 +22,7 @@ export default function Dashboard() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/dashboard",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

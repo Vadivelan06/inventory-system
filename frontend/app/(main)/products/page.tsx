@@ -35,7 +35,7 @@ export default function Products() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/products",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export default function Products() {
     const token = localStorage.getItem("token");
 
     await axios.post(
-      "http://localhost:5000/api/products",
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
       {
         name,
         sku,
@@ -95,7 +95,7 @@ const handleEditProduct = async (product: any) => {
     const token = localStorage.getItem("token");
 
     await axios.put(
-      `http://localhost:5000/api/products/${product.id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products/${product.id}`,
       {
         name: product.name,
         sku: product.sku,
@@ -130,7 +130,7 @@ const handleDeleteProduct = async (id: number) => {
     const token = localStorage.getItem("token");
 
     await axios.delete(
-      `http://localhost:5000/api/products/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -158,7 +158,7 @@ const handleAddStock = async (
     const token = localStorage.getItem("token");
 
     await axios.patch(
-      `http://localhost:5000/api/products/${productId}/add-stock`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}/add-stock`,
       { quantity },
       {
         headers: {
@@ -187,7 +187,7 @@ const handleReduceStock = async (
     const token = localStorage.getItem("token");
 
     await axios.patch(
-      `http://localhost:5000/api/products/${productId}/reduce-stock`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}/reduce-stock`,
       { quantity },
       {
         headers: {
