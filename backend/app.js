@@ -3,6 +3,8 @@ const cors = require("cors");
 require("dotenv").config();
 require("./db/db");
 
+const db = require("./db/db");
+
 const app = express();
 
 app.use(cors());
@@ -45,6 +47,14 @@ app.get(
     });
   }
 );
+
+db.query("SHOW TABLES", (err, results) => {
+  if (err) {
+    console.log("SHOW TABLES ERROR:", err);
+  } else {
+    console.log("TABLES:", results);
+  }
+});
 
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server running on port ${process.env.PORT || 5000}`);
