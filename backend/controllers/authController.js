@@ -50,9 +50,11 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    console.log("LOGIN ATTEMPT:", email);
 
     db.query(
       "SELECT * FROM users WHERE email = ?",
@@ -75,10 +77,14 @@ exports.login = (req, res) => {
 
         console.log("User found:", user.email);
 
-        const isMatch = await bcrypt.compare(
-          password,
-          user.password
-        );
+        console.log("Stored hash:", user.password);
+
+const isMatch = await bcrypt.compare(
+  password,
+  user.password
+);
+
+console.log("Password match:", isMatch);
 
         if (!isMatch) {
           return res.status(400).json({
@@ -110,6 +116,7 @@ exports.login = (req, res) => {
       }
     );
   } catch (error) {
+    console.log("LOGIN ERROR:",error);
     res.status(500).json({
       message: error.message,
     });
