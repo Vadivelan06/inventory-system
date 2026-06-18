@@ -16,7 +16,7 @@ const orderRoutes = require("./routes/orderRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const authMiddleware = require("./middleware/authMiddleware");
 const roleMiddleware = require("./middleware/roleMiddleware");
-console.log("APP JS LOADED");
+console.log("APP JS LOADED-AFTER IMPORT");
 
 // test route
 app.get("/", (req, res) => {
