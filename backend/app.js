@@ -48,6 +48,14 @@ app.get(
   }
 );
 
+db.query("SELECT DATABASE() AS db", (err, results) => {
+  if (err) {
+    console.log("DATABASE ERROR:", err);
+  } else {
+    console.log("CURRENT DB:", results);
+  }
+});
+
 db.query("SHOW TABLES", (err, results) => {
   if (err) {
     console.log("SHOW TABLES ERROR:", err);
